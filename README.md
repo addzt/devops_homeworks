@@ -1,2 +1,3 @@
 # devops_homeworks
-my homeworks on the course
+# my homeworks on the course
+:hurtrealbad:
