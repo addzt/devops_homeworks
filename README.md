@@ -1,8 +1,7 @@
-# devops_homeworks
 # my homeworks on the course :hurtrealbad:
 # .gitignore file:
-Будут проигнорированы файлы с расширением .tfstate & .tfvars :construction_worker:
-Файлы содержащие .tfstate. _override.tf _override.tf.json :cop:
-Файлы crash.log :see_no_evil:
-Все файлы в подкаталоге .terraform :japanese_ogre:
-Файлы настроек CLI .terraformrc terraform.rc :godmode:
+Будут проигнорированы файлы с расширением <code>.tfstate & .tfvars</code> :construction_worker:  
+Файлы содержащие <code>.tfstate.</code><code> _override.tf</code><code> _override.tf.json</code> :cop:  
+Файлы <code>crash.log</code> :see_no_evil:  
+Все файлы в подкаталоге <code>.terraform</code> :japanese_ogre:  
+Файлы настроек CLI <code>.terraformrc</code><code>terraform.rc</code> :godmode:
