@@ -153,7 +153,7 @@ netology
 Направляем созданный дескриптор на 2, а 2 на 1.
 
 ```bash
-vagrant@vagrant:/$ ls -l root 5>&2 2>&1 | grep "Permission denied" -c
+vagrant@vagrant:~$ ls -l /root 5>&1 1>&2 2>&5 | grep "Permission denied" -c
 1
 ```
 
