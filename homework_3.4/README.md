@@ -52,6 +52,25 @@ ExecStart=/usr/local/bin/node_exporter
 [Install]
 WantedBy=multi-user.target
 ```
+
+Для передачи дополнительных опций в `[service]` необходимо добавить `EnvironmentFile`.
+
+```bash
+EnvironmentFile=-/etc/default/cron
+```
+
+В файле мы указываем переменную с определенными параметрами, например:
+
+```bash
+VARIABLE ="-a -h"
+```
+
+В `ExecStart` мы указываем основную команду ExecStart=/opt/my_service $VARIABLE. Cтрока запуска будет такой:
+
+```bash
+ExecStart=/usr/local/bin/node_exporter -a -h
+```
+
 Перезагрузим демон и включим автозапуск.
 
 ```bash
