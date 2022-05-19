@@ -80,7 +80,7 @@ Hey, Netology
 81c5a59a7b617c0d34e9b87f0d71680d91e2608a1d75429cdba6651a151d9650
 ```
 
-<img src = '/Users/addzt/PycharmProjects/devops_homeworks/homework_5.3/img/image_1.png' width="700" height="400">
+<img src = 'img/image_1.png' width="700" height="400">
 
 Остановим контейнер и запушим его в репозиторий.
 
