@@ -1,0 +1,31 @@
+FROM centos:7
+
+LABEL Ivan Gavryushin <addzt@yandex.ru>
+
+EXPOSE 9200 9300
+
+RUN yum update -y && yum upgrade -y && \
+    yum -y install perl-Digest-SHA wget curl
+
+RUN wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.1.0-linux-x86_64.tar.gz && \
+    wget -c https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.1.0-linux-x86_64.tar.gz.sha512 && \
+    shasum -a 512 -c elasticsearch-8.1.0-linux-x86_64.tar.gz.sha512 && \
+    tar -xzf elasticsearch-8.1.0-linux-x86_64.tar.gz
+
+RUN groupadd elasticsearch && \
+    useradd -g elasticsearch elasticsearch && \
+    chown -R elasticsearch:elasticsearch /elasticsearch-8.1.0 && \
+    mkdir /var/lib/logs && \
+    chown elasticsearch:elasticsearch /var/lib/logs && \
+    mkdir /var/lib/data && \
+    chown elasticsearch:elasticsearch /var/lib/data && \
+    mkdir /elasticsearch-8.1.0/snapshots && \
+    chown elasticsearch:elasticsearch /elasticsearch-8.1.0/snapshots
+
+COPY elasticsearch.yml /elasticsearch-8.1.0/config
+
+WORKDIR /elasticsearch-8.1.0
+
+USER elasticsearch
+
+CMD ["./bin/elasticsearch"]
