@@ -1,0 +1,61 @@
+---
+  - name: Update system
+    apt:
+      update_cache: yes
+    notify:
+      - Nginx systemd
+
+  - name: Install nginx and letsencrypt
+    apt:
+      name:
+        - nginx
+        - letsencrypt
+      state: latest
+
+  - name: Install python3-certbot-nginx
+    package:
+      name: "python3-certbot-nginx"
+      state: present
+
+  - name: Remove default site
+    file:
+      name: /etc/nginx/sites-enabled/default
+      state: absent
+
+  - name: Create letsencrypt directory
+    file:
+      path: /var/www/letsencrypt
+      state: directory
+
+  - name: Create home directory for www
+    file:
+      path: /var/www/{{ domain_name }}
+      state: directory
+
+  - name: Check if certificate already exists
+    stat:
+      path: "/etc/letsencrypt/live/{{ domain_name }}/cert.pem"
+    register: letsencrypt_cert
+
+  - name: Force generation of a new certificate
+    shell: >
+      certbot certonly --nginx --email '{{ letsencrypt_email }}'
+      --agree-tos --no-eff-email -d '{{ domain_name }}'
+      -d 'www.{{ domain_name }}' -d 'gitlab.{{ domain_name }}'
+      -d 'grafana.{{ domain_name }}' -d 'prometheus.{{ domain_name }}'
+      -d 'alertmanager.{{ domain_name }}'
+      {% if letsencrypt_staging %} --staging {% endif %}
+
+  - name: Enable nginx.conf
+    template:
+      src: templates/nginx.conf.j2
+      dest: /etc/nginx/nginx.conf
+    notify:
+
+  - name: Enable domain.conf
+    template:
+      src: templates/domain.conf.j2
+      dest: /etc/nginx/conf.d/{{ domain_name }}.conf
+    notify:
+      - Nginx restart
+

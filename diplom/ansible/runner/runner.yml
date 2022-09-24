@@ -1,0 +1,10 @@
+---
+ - name: Install Gitlab runner
+   hosts: runner
+   gather_facts: true
+   become: true
+   become_method: sudo
+   become_user: root
+   remote_user: ubuntu
+   roles:
+   - runner

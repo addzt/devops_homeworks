@@ -1,0 +1,10 @@
+---
+ - name: Install Nginx and LetsEncrypt
+   hosts: nginx
+   gather_facts: true
+   become: true
+   become_method: sudo
+   become_user: root
+   remote_user: ubuntu
+   roles:
+   - nginx

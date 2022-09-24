@@ -1,0 +1,10 @@
+---
+ - name: Install Node exporter
+   hosts: all
+   gather_facts: true
+   become: true
+   become_method: sudo
+   become_user: root
+   remote_user: ubuntu
+   roles:
+   - node_exporter

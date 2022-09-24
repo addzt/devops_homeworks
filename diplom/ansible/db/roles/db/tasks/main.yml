@@ -1,0 +1,47 @@
+---
+  - name: Update system
+    apt:
+      update_cache: yes
+
+  - name: Install MySQL
+    apt: pkg={{ item }}
+    with_items:
+      - mysql-server
+      - mysql-client
+      - python3-mysqldb
+      - libmysqlclient-dev
+
+  - name: Start MySQL service
+    service:
+     name: mysql
+     state: started
+     enabled: yes
+
+  - name: Delete MySQL default database
+    mysql_db:
+      name: test
+      state: absent
+
+  - name: Create new database
+    mysql_db:
+       name: "{{ db_name }}"
+       state: present
+
+  - name: Create MySQL user
+    mysql_user:
+      name: "{{ db_user }}"
+      password: "{{ db_password }}"
+      priv: "*.*:ALL"
+      host: '%'
+      state: present
+
+  - name: Enable remote login to mysql
+    lineinfile:
+      path: /etc/mysql/mysql.conf.d/mysqld.cnf
+      regexp: '^bind-address'
+      line: 'bind-address = 0.0.0.0'
+      backup: yes
+    notify:
+      - Restart MySQL
+
+  - import_tasks: replication.yml

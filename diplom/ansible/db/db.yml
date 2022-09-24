@@ -1,0 +1,11 @@
+---
+ - name: Install MySQL
+   hosts: db
+   gather_facts: true
+   become: true
+   become_method: sudo
+   become_user: root
+   remote_user: ubuntu
+   roles:
+   - db
+
